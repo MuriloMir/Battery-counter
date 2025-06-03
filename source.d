@@ -24,7 +24,8 @@ void main()
           sanyoLightPurpleRingImg = Image.fromMemoryImage(loadImageFromFile("images/sanyo light purple ring.jpeg")),
           sanyoWhiteRingImg = Image.fromMemoryImage(loadImageFromFile("images/sanyo white ring.jpeg")),
           orangeLgabImg = Image.fromMemoryImage(loadImageFromFile("images/orange lgab.jpeg")),
-          sanyoOrangeImg = Image.fromMemoryImage(loadImageFromFile("images/sanyo orange.jpeg")),
+          sanyoOrangePurpleRingImg = Image.fromMemoryImage(loadImageFromFile("images/sanyo orange purple ring.jpeg")),
+          sanyoOrangePinkRingImg = Image.fromMemoryImage(loadImageFromFile("images/sanyo orange pink ring.jpeg")),
           sanyoLightOrangeImg = Image.fromMemoryImage(loadImageFromFile("images/sanyo light orange.jpeg")),
           orangeLgdbImg = Image.fromMemoryImage(loadImageFromFile("images/orange lgdb.jpeg")),
           lightOrangeLgabImg = Image.fromMemoryImage(loadImageFromFile("images/light orange lgab.jpeg")),
@@ -33,7 +34,10 @@ void main()
           limePanasonicImg = Image.fromMemoryImage(loadImageFromFile("images/lime panasonic.jpeg")),
           limeBlankCgrImg = Image.fromMemoryImage(loadImageFromFile("images/lime blank cgr.jpeg")),
           limeCgrImg = Image.fromMemoryImage(loadImageFromFile("images/lime cgr.jpeg")),
-          greenShinyImg = Image.fromMemoryImage(loadImageFromFile("images/green shiny.jpeg")),
+          limeSamsungImg = Image.fromMemoryImage(loadImageFromFile("images/lime samsung.jpeg")),
+          greenShinySeImg = Image.fromMemoryImage(loadImageFromFile("images/green shiny se.jpeg")),
+          greenShinySfImg = Image.fromMemoryImage(loadImageFromFile("images/green shiny sf.jpeg")),
+          greenCfInrImg = Image.fromMemoryImage(loadImageFromFile("images/green cf inr.jpeg")),
           greenCgrImg = Image.fromMemoryImage(loadImageFromFile("images/green cgr.jpeg")),
           greenSamsungImg = Image.fromMemoryImage(loadImageFromFile("images/green samsung.jpeg")),
           greenNcrImg = Image.fromMemoryImage(loadImageFromFile("images/green ncr.jpeg")),
@@ -42,9 +46,13 @@ void main()
           tealLgdbImg = Image.fromMemoryImage(loadImageFromFile("images/teal lgdb.jpeg")),
           tealBarCodeImg = Image.fromMemoryImage(loadImageFromFile("images/teal bar code.jpeg")),
           tealTsImg = Image.fromMemoryImage(loadImageFromFile("images/teal ts.jpeg")),
+          tealCgrImg = Image.fromMemoryImage(loadImageFromFile("images/teal cgr.jpeg")),
           tealRooferImg = Image.fromMemoryImage(loadImageFromFile("images/teal roofer.jpeg")),
+          blueishTealBarCodeImg = Image.fromMemoryImage(loadImageFromFile("images/blueish teal bar code.jpeg")),
           lightBlueLgdaImg = Image.fromMemoryImage(loadImageFromFile("images/light blue lgda.jpeg")),
           blueSamsungImg = Image.fromMemoryImage(loadImageFromFile("images/blue samsung.jpeg")),
+          blueBarCodeImg = Image.fromMemoryImage(loadImageFromFile("images/blue bar code.jpeg")),
+          blueLgdsImg = Image.fromMemoryImage(loadImageFromFile("images/blue lgds.jpeg")),
           blueLgdaImg = Image.fromMemoryImage(loadImageFromFile("images/blue lgda.jpeg")),
           purpleBlankImg = Image.fromMemoryImage(loadImageFromFile("images/purple blank.jpeg")),
           purpleBarCodeImg = Image.fromMemoryImage(loadImageFromFile("images/purple bar code.jpeg")),
@@ -55,16 +63,19 @@ void main()
           purpleLgdbImg = Image.fromMemoryImage(loadImageFromFile("images/purple lgdb.jpeg")),
           purpleCgrImg = Image.fromMemoryImage(loadImageFromFile("images/purple cgr.jpeg")),
           sanyoPinkImg = Image.fromMemoryImage(loadImageFromFile("images/sanyo pink.jpeg")),
+          pinkBarCodeImg = Image.fromMemoryImage(loadImageFromFile("images/pink bar code.jpeg")),
           pinkSamsungImg = Image.fromMemoryImage(loadImageFromFile("images/pink samsung.jpeg"));
 
     // create an array with all battery images
-    Image[44] allBatteryImages = [grayLgabImg, grayBarCodeImg, brownLgabImg, sanyoRedRingImg, sanyoLimeRingImg, sanyoDarkGreenRingImg,
+    Image[53] allBatteryImages = [grayLgabImg, grayBarCodeImg, brownLgabImg, sanyoRedRingImg, sanyoLimeRingImg, sanyoDarkGreenRingImg,
                                   sanyoBlueRingImg, sanyoDarkPurpleRingImg, sanyoPurpleRingImg, sanyoLightPurpleRingImg, sanyoWhiteRingImg,
-                                  orangeLgabImg, sanyoOrangeImg, sanyoLightOrangeImg, orangeLgdbImg, lightOrangeLgabImg, limeRooferImg,
-                                  limeBarCodeImg, limePanasonicImg, limeBlankCgrImg, limeCgrImg, greenShinyImg, greenCgrImg, greenSamsungImg,
-                                  greenNcrImg, darkGreenSamsungImg, darkGreenLgdbImg, tealLgdbImg, tealBarCodeImg, tealTsImg, tealRooferImg,
-                                  blueSamsungImg, lightBlueLgdaImg, blueLgdaImg, lightPurpleSamsungImg, purpleBlankImg, purpleBarCodeImg,
-                                  purpleHlvImg, purpleLnImg, purpleCfImg, purpleLgdbImg, purpleCgrImg, sanyoPinkImg, pinkSamsungImg];
+                                  orangeLgabImg, sanyoOrangePurpleRingImg, sanyoOrangePinkRingImg, sanyoLightOrangeImg, orangeLgdbImg,
+                                  lightOrangeLgabImg, limeRooferImg, limeBarCodeImg, limePanasonicImg, limeBlankCgrImg, limeCgrImg, limeSamsungImg,
+                                  greenShinySeImg, greenShinySfImg, greenCfInrImg, greenCgrImg, greenSamsungImg, greenNcrImg, darkGreenSamsungImg,
+                                  darkGreenLgdbImg, tealLgdbImg, tealBarCodeImg, tealTsImg, tealCgrImg, tealRooferImg, blueishTealBarCodeImg,
+                                  blueSamsungImg, lightBlueLgdaImg, blueBarCodeImg, blueLgdsImg, blueLgdaImg, lightPurpleSamsungImg, purpleBlankImg,
+                                  purpleBarCodeImg, purpleHlvImg, purpleLnImg, purpleCfImg, purpleLgdbImg, purpleCgrImg, sanyoPinkImg,
+                                  pinkBarCodeImg, pinkSamsungImg];
 
     // create an array with the groups of 3 rectangles of all "+", "-" and "tally" boxes
     Rectangle[3][4] allBoxesGroups = [[Rectangle(567, 80, 595, 110), Rectangle(597, 80, 625, 110), Rectangle(521, 114, 544, 137)],
@@ -75,9 +86,9 @@ void main()
     // create the rectangles for the down and up arrows
     Rectangle downArrow = Rectangle(236, 711, 302, 792), upArrow = Rectangle(340, 711, 406, 792);
     // create an array with the quantities of each battery, corresponding to the 'allBatteryImages' array
-    int[44] allBatteryQuantities;
+    int[53] allBatteryQuantities;
     // create an array to tell which batteries have been selected for the tally
-    bool[44] selectedBatteries;
+    bool[53] selectedBatteries;
     // this counter will be used when you scroll down to see the batteries below
     ubyte listCounter;
     // these variables will keep track of the total number of batteries and the tally of batteries you've selected
@@ -104,7 +115,7 @@ void main()
     if (exists("quantities.txt"))
     {
         // read the content of the file and store it in the array 'allBatteryQuantities', notice we need to remove any possible '\n'
-        allBatteryQuantities = to!(int[44])(replace(readText("quantities.txt"), '\n', ""));
+        allBatteryQuantities = to!(int[53])(replace(readText("quantities.txt"), '\n', ""));
         // calculate the total number of batteries
         total = sum(allBatteryQuantities[]);
     }
@@ -150,14 +161,10 @@ void main()
     // register mouse events
     (MouseEvent event)
     {
-        // if you've left-clicked somewhere
-        if (event.type == MouseEventType.buttonPressed && event.button == MouseButton.left)
-        {
-            // define the point where you've clicked
-            mousePoint = Point(event.x, event.y);
-
-            // if you've clicked on the down arrow and you are not at the bottom of the list (there is only room for 4 batteries)
-            if (downArrow.contains(mousePoint) && listCounter < allBatteryImages.length - 4)
+        // if you've pressed any mouse button
+        if (event.type == MouseEventType.buttonPressed)
+            // if you've scrolled down the list and you are not at the bottom of the list (there is only room for 4 batteries)
+            if (event.button == MouseButton.wheelDown && listCounter < allBatteryImages.length - 4)
             {
                 // increment the list counter
                 listCounter++;
@@ -167,8 +174,8 @@ void main()
                 // end the event, we are done
                 return;
             }
-            // if you've clicked on the up arrow and you are not at the top of the list
-            else if (upArrow.contains(mousePoint) && listCounter > 0)
+            // if you've scrolled up the list and you are not at the top of the list
+            else if (event.button == MouseButton.wheelUp && listCounter > 0)
             {
                 // decrement the list counter
                 listCounter--;
@@ -178,61 +185,89 @@ void main()
                 // end the event, we are done
                 return;
             }
+            // if you've left-clicked somewhere
+            else if (event.button == MouseButton.left)
+            {
+                // define the point where you've clicked
+                mousePoint = Point(event.x, event.y);
 
-            // start a loop to go through all possible "+", "-" and "tally" groups of 3 boxes
-            foreach (i, boxGroup; allBoxesGroups)
-                // if the "+" box contains the mouse arrow and it hasn't reached the limit of 999
-                if (boxGroup[0].contains(mousePoint) && allBatteryQuantities[listCounter + i] < 999)
+                // if you've clicked on the down arrow and you are not at the bottom of the list (there is only room for 4 batteries)
+                if (downArrow.contains(mousePoint) && listCounter < allBatteryImages.length - 4)
                 {
-                    // increment the quantity of that battery, add 'listCounter' in case you've scrolled down the list
-                    allBatteryQuantities[listCounter + i]++;
-                    // increment the total number of batteries and the tally, if this battery is selected, using the 'bool' array 'selectedBatteries',
-                    // add 'listCounter' in case you've scrolled down the list
-                    total++, tally += selectedBatteries[listCounter + i];
-                    // write the updated quantities to the text file
-                    write("quantities.txt", to!string(allBatteryQuantities));
-                    // play the button sound
-                    sounds.playOgg("sounds/button.ogg");
+                    // increment the list counter
+                    listCounter++;
+                    // play the arrow sound
+                    sounds.playOgg("sounds/arrow.ogg");
 
                     // end the event, we are done
                     return;
                 }
-                // if the "-" box contains the mouse arrow and it hasn't reached the limit of 0
-                else if (boxGroup[1].contains(mousePoint) && allBatteryQuantities[listCounter + i] > 0)
+                // if you've clicked on the up arrow and you are not at the top of the list
+                else if (upArrow.contains(mousePoint) && listCounter > 0)
                 {
-                    // decrement the quantity of that battery, add 'listCounter' in case you've scrolled down the list
-                    allBatteryQuantities[listCounter + i]--;
-                    // decrement the total number of batteries and the tally, if this battery is selected, using the 'bool' array 'selectedBatteries',
-                    // add 'listCounter' in case you've scrolled down the list
-                    total--, tally -= selectedBatteries[listCounter + i];
-                    // write the updated quantities to the text file
-                    write("quantities.txt", to!string(allBatteryQuantities));
-                    // play the button sound
-                    sounds.playOgg("sounds/button.ogg");
+                    // decrement the list counter
+                    listCounter--;
+                    // play the arrow sound
+                    sounds.playOgg("sounds/arrow.ogg");
 
                     // end the event, we are done
                     return;
                 }
-                // if the "tally" box contains the mouse arrow
-                else if (boxGroup[2].contains(mousePoint))
-                {
-                    // if this box was already checked, add 'listCounter' in case you've scrolled down the list
-                    if (selectedBatteries[listCounter + i])
-                        // remove this battery quantity from the tally, add 'listCounter' in case you've scrolled down the list
-                        tally -= allBatteryQuantities[listCounter + i];
-                    // if this box wasn't checked
-                    else
-                        // add this battery quantity to the tally, add 'listCounter' in case you've scrolled down the list
-                        tally += allBatteryQuantities[listCounter + i];
 
-                    // update the status of the box, add 'listCounter' in case you've scrolled down the list
-                    selectedBatteries[listCounter + i] = !selectedBatteries[listCounter + i];
-                    // play the button sound
-                    sounds.playOgg("sounds/button.ogg");
+                // start a loop to go through all possible "+", "-" and "tally" groups of 3 boxes
+                foreach (i, boxGroup; allBoxesGroups)
+                    // if the "+" box contains the mouse arrow and it hasn't reached the limit of 999
+                    if (boxGroup[0].contains(mousePoint) && allBatteryQuantities[listCounter + i] < 999)
+                    {
+                        // increment the quantity of that battery, add 'listCounter' in case you've scrolled down the list
+                        allBatteryQuantities[listCounter + i]++;
+                        // increment the total number of batteries and the tally, if this battery is selected, using the 'bool' array 'selectedBatteries',
+                        // add 'listCounter' in case you've scrolled down the list
+                        total++, tally += selectedBatteries[listCounter + i];
+                        // write the updated quantities to the text file
+                        write("quantities.txt", to!string(allBatteryQuantities));
+                        // play the button sound
+                        sounds.playOgg("sounds/button.ogg");
 
-                    // end the event, we are done
-                    return;
-                }
-        }
+                        // end the event, we are done
+                        return;
+                    }
+                    // if the "-" box contains the mouse arrow and it hasn't reached the limit of 0
+                    else if (boxGroup[1].contains(mousePoint) && allBatteryQuantities[listCounter + i] > 0)
+                    {
+                        // decrement the quantity of that battery, add 'listCounter' in case you've scrolled down the list
+                        allBatteryQuantities[listCounter + i]--;
+                        // decrement the total number of batteries and the tally, if this battery is selected, using the 'bool' array 'selectedBatteries',
+                        // add 'listCounter' in case you've scrolled down the list
+                        total--, tally -= selectedBatteries[listCounter + i];
+                        // write the updated quantities to the text file
+                        write("quantities.txt", to!string(allBatteryQuantities));
+                        // play the button sound
+                        sounds.playOgg("sounds/button.ogg");
+
+                        // end the event, we are done
+                        return;
+                    }
+                    // if the "tally" box contains the mouse arrow
+                    else if (boxGroup[2].contains(mousePoint))
+                    {
+                        // if this box was already checked, add 'listCounter' in case you've scrolled down the list
+                        if (selectedBatteries[listCounter + i])
+                            // remove this battery quantity from the tally, add 'listCounter' in case you've scrolled down the list
+                            tally -= allBatteryQuantities[listCounter + i];
+                        // if this box wasn't checked
+                        else
+                            // add this battery quantity to the tally, add 'listCounter' in case you've scrolled down the list
+                            tally += allBatteryQuantities[listCounter + i];
+
+                        // update the status of the box, add 'listCounter' in case you've scrolled down the list
+                        selectedBatteries[listCounter + i] = !selectedBatteries[listCounter + i];
+                        // play the button sound
+                        sounds.playOgg("sounds/button.ogg");
+
+                        // end the event, we are done
+                        return;
+                    }
+            }
     });
 }
