@@ -7,6 +7,14 @@ import std.array : replace;
 import std.conv : to;
 import std.file : exists, readText, write;
 
+// in case you are on Windows
+version (Windows)
+{
+    // these 2 lines will simply stop the terminal from popping-up
+    pragma(linkerDirective, "/subsystem:windows");
+    pragma(linkerDirective, "/entry:mainCRTStartup");
+}
+
 // start the software
 void main()
 {
