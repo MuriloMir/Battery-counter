@@ -1,4 +1,6 @@
-// import all tools
+// This software is designed to keep a record of the tally of all the different types of 18650 batteries you have.
+
+// import all the tools we need
 import arsd.image : loadImageFromFile;
 import arsd.simpleaudio : AudioOutputThread;
 import arsd.simpledisplay : Color, Image, MouseButton, MouseEvent, MouseEventType, OperatingSystemFont, Point, Rectangle, ScreenPainter, SimpleWindow;
