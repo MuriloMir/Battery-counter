@@ -1,9 +1,9 @@
 // This software is designed to keep a record of the tally of all the different types of 18650 batteries you have.
 
 // import all the tools we need
-import arsd.image : loadImageFromFile;
-import arsd.simpleaudio : AudioOutputThread;
-import arsd.simpledisplay : Color, Image, MouseButton, MouseEvent, MouseEventType, OperatingSystemFont, Point, Rectangle, ScreenPainter, SimpleWindow;
+import multimedia.audio : AudioOutputThread;
+import multimedia.display : Color, Image, MouseButton, MouseEvent, MouseEventType, OperatingSystemFont, Point, Rectangle, ScreenPainter, SimpleWindow;
+import multimedia.image : loadImageFromMemory, memory;
 import std.algorithm : sum;
 import std.array : replace;
 import std.conv : to;
@@ -20,72 +20,137 @@ version (Windows)
 // start the software
 void main()
 {
-    // load all images
-    Image backgroundImg = Image.fromMemoryImage(loadImageFromFile("images/background.jpeg")),
-          grayLgabImg = Image.fromMemoryImage(loadImageFromFile("images/gray lgab.jpeg")),
-          grayBarCodeImg = Image.fromMemoryImage(loadImageFromFile("images/gray bar code.jpeg")),
-          brownLgabImg = Image.fromMemoryImage(loadImageFromFile("images/brown lgab.jpeg")),
-          sanyoRedRingImg = Image.fromMemoryImage(loadImageFromFile("images/sanyo red ring.jpeg")),
-          sanyoLimeRingImg = Image.fromMemoryImage(loadImageFromFile("images/sanyo lime ring.jpeg")),
-          sanyoDarkGreenRingImg = Image.fromMemoryImage(loadImageFromFile("images/sanyo dark green ring.jpeg")),
-          sanyoBlueRingImg = Image.fromMemoryImage(loadImageFromFile("images/sanyo blue ring.jpeg")),
-          sanyoDarkPurpleRingImg = Image.fromMemoryImage(loadImageFromFile("images/sanyo dark purple ring.jpeg")),
-          sanyoPurpleRingImg = Image.fromMemoryImage(loadImageFromFile("images/sanyo purple ring.jpeg")),
-          sanyoLightPurpleRingImg = Image.fromMemoryImage(loadImageFromFile("images/sanyo light purple ring.jpeg")),
-          sanyoWhiteRingImg = Image.fromMemoryImage(loadImageFromFile("images/sanyo white ring.jpeg")),
-          orangeLgabImg = Image.fromMemoryImage(loadImageFromFile("images/orange lgab.jpeg")),
-          sanyoOrangePurpleRingImg = Image.fromMemoryImage(loadImageFromFile("images/sanyo orange purple ring.jpeg")),
-          sanyoOrangePinkRingImg = Image.fromMemoryImage(loadImageFromFile("images/sanyo orange pink ring.jpeg")),
-          sanyoLightOrangeImg = Image.fromMemoryImage(loadImageFromFile("images/sanyo light orange.jpeg")),
-          orangeLgdbImg = Image.fromMemoryImage(loadImageFromFile("images/orange lgdb.jpeg")),
-          lightOrangeLgabImg = Image.fromMemoryImage(loadImageFromFile("images/light orange lgab.jpeg")),
-          limeRooferImg = Image.fromMemoryImage(loadImageFromFile("images/lime roofer.jpeg")),
-          limeBarCodeImg = Image.fromMemoryImage(loadImageFromFile("images/lime bar code.jpeg")),
-          limePanasonicImg = Image.fromMemoryImage(loadImageFromFile("images/lime panasonic.jpeg")),
-          limeBlankCgrImg = Image.fromMemoryImage(loadImageFromFile("images/lime blank cgr.jpeg")),
-          limeCgrImg = Image.fromMemoryImage(loadImageFromFile("images/lime cgr.jpeg")),
-          limeSamsungImg = Image.fromMemoryImage(loadImageFromFile("images/lime samsung.jpeg")),
-          greenShinySeImg = Image.fromMemoryImage(loadImageFromFile("images/green shiny se.jpeg")),
-          greenShinySfImg = Image.fromMemoryImage(loadImageFromFile("images/green shiny sf.jpeg")),
-          greenCfInrImg = Image.fromMemoryImage(loadImageFromFile("images/green cf inr.jpeg")),
-          greenCgrImg = Image.fromMemoryImage(loadImageFromFile("images/green cgr.jpeg")),
-          greenSamsungImg = Image.fromMemoryImage(loadImageFromFile("images/green samsung.jpeg")),
-          greenNcrImg = Image.fromMemoryImage(loadImageFromFile("images/green ncr.jpeg")),
-          darkGreenSamsungImg = Image.fromMemoryImage(loadImageFromFile("images/dark green samsung.jpeg")),
-          darkGreenLgdbImg = Image.fromMemoryImage(loadImageFromFile("images/dark green lgdb.jpeg")),
-          tealLgdbImg = Image.fromMemoryImage(loadImageFromFile("images/teal lgdb.jpeg")),
-          tealBarCodeImg = Image.fromMemoryImage(loadImageFromFile("images/teal bar code.jpeg")),
-          tealTsImg = Image.fromMemoryImage(loadImageFromFile("images/teal ts.jpeg")),
-          tealCgrImg = Image.fromMemoryImage(loadImageFromFile("images/teal cgr.jpeg")),
-          tealRooferImg = Image.fromMemoryImage(loadImageFromFile("images/teal roofer.jpeg")),
-          blueishTealBarCodeImg = Image.fromMemoryImage(loadImageFromFile("images/blueish teal bar code.jpeg")),
-          lightBlueLgdaImg = Image.fromMemoryImage(loadImageFromFile("images/light blue lgda.jpeg")),
-          blueSamsungImg = Image.fromMemoryImage(loadImageFromFile("images/blue samsung.jpeg")),
-          blueBarCodeImg = Image.fromMemoryImage(loadImageFromFile("images/blue bar code.jpeg")),
-          blueLgdsImg = Image.fromMemoryImage(loadImageFromFile("images/blue lgds.jpeg")),
-          blueLgdaImg = Image.fromMemoryImage(loadImageFromFile("images/blue lgda.jpeg")),
-          purpleBlankImg = Image.fromMemoryImage(loadImageFromFile("images/purple blank.jpeg")),
-          purpleBarCodeImg = Image.fromMemoryImage(loadImageFromFile("images/purple bar code.jpeg")),
-          purpleHlvImg = Image.fromMemoryImage(loadImageFromFile("images/purple hlv.jpeg")),
-          purpleLnImg = Image.fromMemoryImage(loadImageFromFile("images/purple ln.jpeg")),
-          purpleCfImg = Image.fromMemoryImage(loadImageFromFile("images/purple cf.jpeg")),
-          lightPurpleSamsungImg = Image.fromMemoryImage(loadImageFromFile("images/light purple samsung.jpeg")),
-          purpleLgdbImg = Image.fromMemoryImage(loadImageFromFile("images/purple lgdb.jpeg")),
-          purpleCgrImg = Image.fromMemoryImage(loadImageFromFile("images/purple cgr.jpeg")),
-          sanyoPinkImg = Image.fromMemoryImage(loadImageFromFile("images/sanyo pink.jpeg")),
-          pinkBarCodeImg = Image.fromMemoryImage(loadImageFromFile("images/pink bar code.jpeg")),
-          pinkSamsungImg = Image.fromMemoryImage(loadImageFromFile("images/pink samsung.jpeg"));
+    // import all the audio files
+    memory arrow = import("sounds/arrow.ogg"),
+           button = import("sounds/button.ogg");
+
+    // import all the image files
+    memory backgroundFile = import("images/background.jpeg"),
+           grayLgdaFile = import("images/gray lgda.jpeg"),
+           grayLgabFile = import("images/gray lgab.jpeg"),
+           grayBarCodeFile = import("images/gray bar code.jpeg"),
+           brownLgabFile = import("images/brown lgab.jpeg"),
+           sanyoRedRingFile = import("images/sanyo red ring.jpeg"),
+           sanyoLimeRingFile = import("images/sanyo lime ring.jpeg"),
+           sanyoDarkGreenRingFile = import("images/sanyo dark green ring.jpeg"),
+           sanyoBlueRingFile = import("images/sanyo blue ring.jpeg"),
+           sanyoDarkPurpleRingFile = import("images/sanyo dark purple ring.jpeg"),
+           sanyoPurpleRingFile = import("images/sanyo purple ring.jpeg"),
+           sanyoLightPurpleRingFile = import("images/sanyo light purple ring.jpeg"),
+           sanyoWhiteRingFile = import("images/sanyo white ring.jpeg"),
+           orangeLgabFile = import("images/orange lgab.jpeg"),
+           sanyoOrangePurpleRingFile = import("images/sanyo orange purple ring.jpeg"),
+           sanyoOrangePinkRingFile = import("images/sanyo orange pink ring.jpeg"),
+           sanyoLightOrangeFile = import("images/sanyo light orange.jpeg"),
+           orangeLgdbFile = import("images/orange lgdb.jpeg"),
+           lightOrangeLgabFile = import("images/light orange lgab.jpeg"),
+           lightBrownLgabFile = import("images/light brown lgab.jpeg"),
+           limeRooferFile = import("images/lime roofer.jpeg"),
+           limeBarCodeFile = import("images/lime bar code.jpeg"),
+           limePanasonicFile = import("images/lime panasonic.jpeg"),
+           limeBlankCgrFile = import("images/lime blank cgr.jpeg"),
+           limeCgrFile = import("images/lime cgr.jpeg"),
+           limeSamsungFile = import("images/lime samsung.jpeg"),
+           greenShinySeFile = import("images/green shiny se.jpeg"),
+           greenShinySfFile = import("images/green shiny sf.jpeg"),
+           greenCfInrFile = import("images/green cf inr.jpeg"),
+           greenCgrFile = import("images/green cgr.jpeg"),
+           greenSamsungFile = import("images/green samsung.jpeg"),
+           greenNcrFile = import("images/green ncr.jpeg"),
+           darkGreenSamsungFile = import("images/dark green samsung.jpeg"),
+           darkGreenLgdbFile = import("images/dark green lgdb.jpeg"),
+           tealLgdbFile = import("images/teal lgdb.jpeg"),
+           tealBarCodeFile = import("images/teal bar code.jpeg"),
+           tealTsFile = import("images/teal ts.jpeg"),
+           tealCgrFile = import("images/teal cgr.jpeg"),
+           tealRooferFile = import("images/teal roofer.jpeg"),
+           blueishTealBarCodeFile = import("images/blueish teal bar code.jpeg"),
+           paleBlueSamsungFile = import("images/pale blue samsung.jpeg"),
+           paleBlueLgdaFile = import("images/pale blue lgda.jpeg"),
+           lightBlueBarCodeFile = import("images/light blue bar code.jpeg"),
+           blueLgdsFile = import("images/blue lgds.jpeg"),
+           blueBarCodeFile = import("images/blue bar code.jpeg"),
+           blueLgdaFile = import("images/blue lgda.jpeg"),
+           lightPurpleSamsungFile = import("images/light purple samsung.jpeg"),
+           purpleBlankFile = import("images/purple blank.jpeg"),
+           purpleBarCodeFile = import("images/purple bar code.jpeg"),
+           purpleHlvFile = import("images/purple hlv.jpeg"),
+           purpleLnFile = import("images/purple ln.jpeg"),
+           purpleCfFile = import("images/purple cf.jpeg"),
+           purpleLgdbFile = import("images/purple lgdb.jpeg"),
+           purpleCgrFile = import("images/purple cgr.jpeg"),
+           sanyoPinkFile = import("images/sanyo pink.jpeg"),
+           pinkBarCodeFile = import("images/pink bar code.jpeg"),
+           pinkSamsungFile = import("images/pink samsung.jpeg");
+
+    // create all images
+    Image backgroundImg = Image.fromMemoryImage(loadImageFromMemory(backgroundFile)),
+          grayLgdaImg = Image.fromMemoryImage(loadImageFromMemory(grayLgdaFile)),
+          grayLgabImg = Image.fromMemoryImage(loadImageFromMemory(grayLgabFile)),
+          grayBarCodeImg = Image.fromMemoryImage(loadImageFromMemory(grayBarCodeFile)),
+          brownLgabImg = Image.fromMemoryImage(loadImageFromMemory(brownLgabFile)),
+          sanyoRedRingImg = Image.fromMemoryImage(loadImageFromMemory(sanyoRedRingFile)),
+          sanyoLimeRingImg = Image.fromMemoryImage(loadImageFromMemory(sanyoLimeRingFile)),
+          sanyoDarkGreenRingImg = Image.fromMemoryImage(loadImageFromMemory(sanyoDarkGreenRingFile)),
+          sanyoBlueRingImg = Image.fromMemoryImage(loadImageFromMemory(sanyoBlueRingFile)),
+          sanyoDarkPurpleRingImg = Image.fromMemoryImage(loadImageFromMemory(sanyoDarkPurpleRingFile)),
+          sanyoPurpleRingImg = Image.fromMemoryImage(loadImageFromMemory(sanyoPurpleRingFile)),
+          sanyoLightPurpleRingImg = Image.fromMemoryImage(loadImageFromMemory(sanyoLightPurpleRingFile)),
+          sanyoWhiteRingImg = Image.fromMemoryImage(loadImageFromMemory(sanyoWhiteRingFile)),
+          orangeLgabImg = Image.fromMemoryImage(loadImageFromMemory(orangeLgabFile)),
+          sanyoOrangePurpleRingImg = Image.fromMemoryImage(loadImageFromMemory(sanyoOrangePurpleRingFile)),
+          sanyoOrangePinkRingImg = Image.fromMemoryImage(loadImageFromMemory(sanyoOrangePinkRingFile)),
+          sanyoLightOrangeImg = Image.fromMemoryImage(loadImageFromMemory(sanyoLightOrangeFile)),
+          orangeLgdbImg = Image.fromMemoryImage(loadImageFromMemory(orangeLgdbFile)),
+          lightOrangeLgabImg = Image.fromMemoryImage(loadImageFromMemory(lightOrangeLgabFile)),
+          lightBrownLgabImg = Image.fromMemoryImage(loadImageFromMemory(lightBrownLgabFile)),
+          limeRooferImg = Image.fromMemoryImage(loadImageFromMemory(limeRooferFile)),
+          limeBarCodeImg = Image.fromMemoryImage(loadImageFromMemory(limeBarCodeFile)),
+          limePanasonicImg = Image.fromMemoryImage(loadImageFromMemory(limePanasonicFile)),
+          limeBlankCgrImg = Image.fromMemoryImage(loadImageFromMemory(limeBlankCgrFile)),
+          limeCgrImg = Image.fromMemoryImage(loadImageFromMemory(limeCgrFile)),
+          limeSamsungImg = Image.fromMemoryImage(loadImageFromMemory(limeSamsungFile)),
+          greenShinySeImg = Image.fromMemoryImage(loadImageFromMemory(greenShinySeFile)),
+          greenShinySfImg = Image.fromMemoryImage(loadImageFromMemory(greenShinySfFile)),
+          greenCfInrImg = Image.fromMemoryImage(loadImageFromMemory(greenCfInrFile)),
+          greenCgrImg = Image.fromMemoryImage(loadImageFromMemory(greenCgrFile)),
+          greenSamsungImg = Image.fromMemoryImage(loadImageFromMemory(greenSamsungFile)),
+          greenNcrImg = Image.fromMemoryImage(loadImageFromMemory(greenNcrFile)),
+          darkGreenSamsungImg = Image.fromMemoryImage(loadImageFromMemory(darkGreenSamsungFile)),
+          darkGreenLgdbImg = Image.fromMemoryImage(loadImageFromMemory(darkGreenLgdbFile)),
+          tealLgdbImg = Image.fromMemoryImage(loadImageFromMemory(tealLgdbFile)),
+          tealBarCodeImg = Image.fromMemoryImage(loadImageFromMemory(tealBarCodeFile)),
+          tealTsImg = Image.fromMemoryImage(loadImageFromMemory(tealTsFile)),
+          tealCgrImg = Image.fromMemoryImage(loadImageFromMemory(tealCgrFile)),
+          tealRooferImg = Image.fromMemoryImage(loadImageFromMemory(tealRooferFile)),
+          blueishTealBarCodeImg = Image.fromMemoryImage(loadImageFromMemory(blueishTealBarCodeFile)),
+          paleBlueSamsungImg = Image.fromMemoryImage(loadImageFromMemory(paleBlueSamsungFile)),
+          paleBlueLgdaImg = Image.fromMemoryImage(loadImageFromMemory(paleBlueLgdaFile)),
+          lightBlueBarCodeImg = Image.fromMemoryImage(loadImageFromMemory(lightBlueBarCodeFile)),
+          blueLgdsImg = Image.fromMemoryImage(loadImageFromMemory(blueLgdsFile)),
+          blueBarCodeImg = Image.fromMemoryImage(loadImageFromMemory(blueBarCodeFile)),
+          blueLgdaImg = Image.fromMemoryImage(loadImageFromMemory(blueLgdaFile)),
+          lightPurpleSamsungImg = Image.fromMemoryImage(loadImageFromMemory(lightPurpleSamsungFile)),
+          purpleBlankImg = Image.fromMemoryImage(loadImageFromMemory(purpleBlankFile)),
+          purpleBarCodeImg = Image.fromMemoryImage(loadImageFromMemory(purpleBarCodeFile)),
+          purpleHlvImg = Image.fromMemoryImage(loadImageFromMemory(purpleHlvFile)),
+          purpleLnImg = Image.fromMemoryImage(loadImageFromMemory(purpleLnFile)),
+          purpleCfImg = Image.fromMemoryImage(loadImageFromMemory(purpleCfFile)),
+          purpleLgdbImg = Image.fromMemoryImage(loadImageFromMemory(purpleLgdbFile)),
+          purpleCgrImg = Image.fromMemoryImage(loadImageFromMemory(purpleCgrFile)),
+          sanyoPinkImg = Image.fromMemoryImage(loadImageFromMemory(sanyoPinkFile)),
+          pinkBarCodeImg = Image.fromMemoryImage(loadImageFromMemory(pinkBarCodeFile)),
+          pinkSamsungImg = Image.fromMemoryImage(loadImageFromMemory(pinkSamsungFile));
 
     // create an array with all battery images
-    Image[53] allBatteryImages = [grayLgabImg, grayBarCodeImg, brownLgabImg, sanyoRedRingImg, sanyoLimeRingImg, sanyoDarkGreenRingImg,
-                                  sanyoBlueRingImg, sanyoDarkPurpleRingImg, sanyoPurpleRingImg, sanyoLightPurpleRingImg, sanyoWhiteRingImg,
-                                  orangeLgabImg, sanyoOrangePurpleRingImg, sanyoOrangePinkRingImg, sanyoLightOrangeImg, orangeLgdbImg,
-                                  lightOrangeLgabImg, limeRooferImg, limeBarCodeImg, limePanasonicImg, limeBlankCgrImg, limeCgrImg, limeSamsungImg,
-                                  greenShinySeImg, greenShinySfImg, greenCfInrImg, greenCgrImg, greenSamsungImg, greenNcrImg, darkGreenSamsungImg,
-                                  darkGreenLgdbImg, tealLgdbImg, tealBarCodeImg, tealTsImg, tealCgrImg, tealRooferImg, blueishTealBarCodeImg,
-                                  blueSamsungImg, lightBlueLgdaImg, blueBarCodeImg, blueLgdsImg, blueLgdaImg, lightPurpleSamsungImg, purpleBlankImg,
-                                  purpleBarCodeImg, purpleHlvImg, purpleLnImg, purpleCfImg, purpleLgdbImg, purpleCgrImg, sanyoPinkImg,
-                                  pinkBarCodeImg, pinkSamsungImg];
+    Image[56] allBatteryImages = [grayLgdaImg, grayLgabImg, grayBarCodeImg, brownLgabImg, sanyoRedRingImg, sanyoLimeRingImg, sanyoDarkGreenRingImg, sanyoBlueRingImg,
+                                  sanyoDarkPurpleRingImg, sanyoPurpleRingImg, sanyoLightPurpleRingImg, sanyoWhiteRingImg, orangeLgabImg, sanyoOrangePurpleRingImg,
+                                  sanyoOrangePinkRingImg, sanyoLightOrangeImg, orangeLgdbImg, lightOrangeLgabImg, lightBrownLgabImg, limeRooferImg, limeBarCodeImg,
+                                  limePanasonicImg, limeBlankCgrImg, limeCgrImg, limeSamsungImg, greenShinySeImg, greenShinySfImg, greenCfInrImg, greenCgrImg,
+                                  greenSamsungImg, greenNcrImg, darkGreenSamsungImg, darkGreenLgdbImg, tealLgdbImg, tealBarCodeImg, tealTsImg, tealCgrImg, tealRooferImg,
+                                  blueishTealBarCodeImg, paleBlueSamsungImg, paleBlueLgdaImg, lightBlueBarCodeImg, blueLgdsImg, blueBarCodeImg, blueLgdaImg,
+                                  lightPurpleSamsungImg, purpleBlankImg, purpleBarCodeImg, purpleHlvImg, purpleLnImg, purpleCfImg, purpleLgdbImg, purpleCgrImg,
+                                  sanyoPinkImg, pinkBarCodeImg, pinkSamsungImg];
 
     // create an array with the groups of 3 rectangles of all "+", "-" and "tally" boxes
     Rectangle[3][4] allBoxesGroups = [[Rectangle(567, 80, 595, 110), Rectangle(597, 80, 625, 110), Rectangle(521, 114, 544, 137)],
@@ -96,9 +161,9 @@ void main()
     // create the rectangles for the down and up arrows
     Rectangle downArrow = Rectangle(236, 711, 302, 792), upArrow = Rectangle(340, 711, 406, 792);
     // create an array with the quantities of each battery, corresponding to the 'allBatteryImages' array
-    int[53] allBatteryQuantities;
+    int[56] allBatteryQuantities;
     // create an array to tell which batteries have been selected for the tally
-    bool[53] selectedBatteries;
+    bool[56] selectedBatteries;
     // this counter will be used when you scroll down to see the batteries below
     ubyte listCounter;
     // these variables will keep track of the total number of batteries and the tally of batteries you've selected
@@ -125,7 +190,7 @@ void main()
     if (exists("quantities.txt"))
     {
         // read the content of the file and store it in the array 'allBatteryQuantities', notice we need to remove any possible '\n'
-        allBatteryQuantities = to!(int[53])(replace(readText("quantities.txt"), '\n', ""));
+        allBatteryQuantities = to!(int[56])(replace(readText("quantities.txt"), '\n', ""));
         // calculate the total number of batteries
         total = sum(allBatteryQuantities[]);
     }
@@ -179,7 +244,7 @@ void main()
                 // increment the list counter
                 listCounter++;
                 // play the arrow sound
-                sounds.playOgg("sounds/arrow.ogg");
+                sounds.playOgg(arrow);
 
                 // end the event, we are done
                 return;
@@ -190,7 +255,7 @@ void main()
                 // decrement the list counter
                 listCounter--;
                 // play the arrow sound
-                sounds.playOgg("sounds/arrow.ogg");
+                sounds.playOgg(arrow);
 
                 // end the event, we are done
                 return;
@@ -207,7 +272,7 @@ void main()
                     // increment the list counter
                     listCounter++;
                     // play the arrow sound
-                    sounds.playOgg("sounds/arrow.ogg");
+                    sounds.playOgg(arrow);
 
                     // end the event, we are done
                     return;
@@ -218,7 +283,7 @@ void main()
                     // decrement the list counter
                     listCounter--;
                     // play the arrow sound
-                    sounds.playOgg("sounds/arrow.ogg");
+                    sounds.playOgg(arrow);
 
                     // end the event, we are done
                     return;
@@ -237,7 +302,7 @@ void main()
                         // write the updated quantities to the text file
                         write("quantities.txt", to!string(allBatteryQuantities));
                         // play the button sound
-                        sounds.playOgg("sounds/button.ogg");
+                        sounds.playOgg(button);
 
                         // end the event, we are done
                         return;
@@ -253,7 +318,7 @@ void main()
                         // write the updated quantities to the text file
                         write("quantities.txt", to!string(allBatteryQuantities));
                         // play the button sound
-                        sounds.playOgg("sounds/button.ogg");
+                        sounds.playOgg(button);
 
                         // end the event, we are done
                         return;
@@ -273,7 +338,7 @@ void main()
                         // update the status of the box, add 'listCounter' in case you've scrolled down the list
                         selectedBatteries[listCounter + i] = !selectedBatteries[listCounter + i];
                         // play the button sound
-                        sounds.playOgg("sounds/button.ogg");
+                        sounds.playOgg(button);
 
                         // end the event, we are done
                         return;
