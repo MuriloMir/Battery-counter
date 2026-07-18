@@ -153,13 +153,13 @@ void main()
                                   sanyoPinkImg, pinkBarCodeImg, pinkSamsungImg];
 
     // create an array with the groups of 3 rectangles of all "+", "-" and "tally" boxes
-    Rectangle[3][4] allBoxesGroups = [[Rectangle(567, 80, 595, 110), Rectangle(597, 80, 625, 110), Rectangle(521, 114, 544, 137)],
-                                      [Rectangle(567, 250, 595, 280), Rectangle(597, 250, 625, 280), Rectangle(521, 284, 544, 307)],
-                                      [Rectangle(567, 420, 595, 450), Rectangle(597, 420, 625, 450), Rectangle(521, 454, 544, 477)],
-                                      [Rectangle(567, 590, 595, 620), Rectangle(597, 590, 625, 620), Rectangle(521, 624, 544, 647)]];
+    Rectangle[3][4] allBoxesGroups = [[Rectangle(563, 75, 588, 100), Rectangle(592, 75, 617, 100), Rectangle(517, 108, 541, 132)],
+                                      [Rectangle(563, 244, 588, 269), Rectangle(592, 244, 617, 269), Rectangle(517, 278, 541, 302)],
+                                      [Rectangle(563, 414, 588, 439), Rectangle(592, 414, 617, 439), Rectangle(517, 447, 541, 472)],
+                                      [Rectangle(563, 585, 588, 610), Rectangle(592, 585, 617, 610), Rectangle(517, 618, 541, 642)]];
 
     // create the rectangles for the down and up arrows
-    Rectangle downArrow = Rectangle(236, 711, 302, 792), upArrow = Rectangle(340, 711, 406, 792);
+    Rectangle downArrow = Rectangle(236, 697, 291, 778), upArrow = Rectangle(340, 697, 395, 778);
     // create an array with the quantities of each battery, corresponding to the 'allBatteryImages' array
     int[56] allBatteryQuantities;
     // create an array to tell which batteries have been selected for the tally
@@ -170,8 +170,8 @@ void main()
     int total, tally;
     // 'origin' is where to draw the background, 'imagePlace' is where to draw each battery, 'quantityPlace' is where to write each quantity,
     // 'totalPlace' is where to write the total of batteries, 'tallyPlace' is where to write the tally, 'mousePoint' will be the point where you've clicked
-    Point origin = Point(0, 0), imagePlace = Point(0, 20), quantityPlace = Point(515, 80), totalPlace = Point(110, 753),
-          tallyPlace = Point(475, 753), mousePoint;
+    Point origin = Point(0, 0), imagePlace = Point(4, 20), quantityPlace = Point(511, 72), totalPlace = Point(110, 735),
+          tallyPlace = Point(463, 735), mousePoint;
     // create the thread which will be playing the sounds for the button clicks
     AudioOutputThread sounds = AudioOutputThread(true);
     // create the GUI window
@@ -181,7 +181,7 @@ void main()
     version (linux)
         // this will be the font used by the painter in order to write the quantities of the batteries
         OperatingSystemFont font = new OperatingSystemFont("Ubuntu", 19);
-    // if you are on Windows
+    // else, meaning you are on Windows
     else
         // this will be the font used by the painter in order to write the quantities of the batteries
         OperatingSystemFont font = new OperatingSystemFont("Calibri", 30);
@@ -202,11 +202,10 @@ void main()
         ScreenPainter painter = window.draw();
         // choose the outline color and the font of the painter
         painter.outlineColor = Color.white(), painter.setFont(font);
-
         // draw the background image
         painter.drawImage(origin, backgroundImg);
         // reset the y coordinates of 'imagePlace' and 'quantityPlace' back to the top
-        imagePlace.y = 20, quantityPlace.y = 80;
+        imagePlace.y = 20, quantityPlace.y = 72;
 
         // start a loop to go through all battery images, according to how far down the list you've scrolled (there is only room for 4 batteries),
         // add 'listCounter' in case you've scrolled down the list
@@ -238,6 +237,7 @@ void main()
     {
         // if you've pressed any mouse button
         if (event.type == MouseEventType.buttonPressed)
+        {
             // if you've scrolled down the list and you are not at the bottom of the list (there is only room for 4 batteries)
             if (event.button == MouseButton.wheelDown && listCounter < allBatteryImages.length - 4)
             {
@@ -249,7 +249,7 @@ void main()
                 // end the event, we are done
                 return;
             }
-            // if you've scrolled up the list and you are not at the top of the list
+            // else if you've scrolled up the list and you are not at the top of the list
             else if (event.button == MouseButton.wheelUp && listCounter > 0)
             {
                 // decrement the list counter
@@ -260,7 +260,7 @@ void main()
                 // end the event, we are done
                 return;
             }
-            // if you've left-clicked somewhere
+            // else if you've left-clicked somewhere
             else if (event.button == MouseButton.left)
             {
                 // define the point where you've clicked
@@ -277,7 +277,7 @@ void main()
                     // end the event, we are done
                     return;
                 }
-                // if you've clicked on the up arrow and you are not at the top of the list
+                // else if you've clicked on the up arrow and you are not at the top of the list
                 else if (upArrow.contains(mousePoint) && listCounter > 0)
                 {
                     // decrement the list counter
@@ -291,6 +291,7 @@ void main()
 
                 // start a loop to go through all possible "+", "-" and "tally" groups of 3 boxes
                 foreach (i, boxGroup; allBoxesGroups)
+                {
                     // if the "+" box contains the mouse arrow and it hasn't reached the limit of 999
                     if (boxGroup[0].contains(mousePoint) && allBatteryQuantities[listCounter + i] < 999)
                     {
@@ -307,7 +308,7 @@ void main()
                         // end the event, we are done
                         return;
                     }
-                    // if the "-" box contains the mouse arrow and it hasn't reached the limit of 0
+                    // else if the "-" box contains the mouse arrow and it hasn't reached the limit of 0
                     else if (boxGroup[1].contains(mousePoint) && allBatteryQuantities[listCounter + i] > 0)
                     {
                         // decrement the quantity of that battery, add 'listCounter' in case you've scrolled down the list
@@ -323,14 +324,14 @@ void main()
                         // end the event, we are done
                         return;
                     }
-                    // if the "tally" box contains the mouse arrow
+                    // else if the "tally" box contains the mouse arrow
                     else if (boxGroup[2].contains(mousePoint))
                     {
                         // if this box was already checked, add 'listCounter' in case you've scrolled down the list
                         if (selectedBatteries[listCounter + i])
                             // remove this battery quantity from the tally, add 'listCounter' in case you've scrolled down the list
                             tally -= allBatteryQuantities[listCounter + i];
-                        // if this box wasn't checked
+                        // else, meaning this box wasn't checked
                         else
                             // add this battery quantity to the tally, add 'listCounter' in case you've scrolled down the list
                             tally += allBatteryQuantities[listCounter + i];
@@ -343,6 +344,8 @@ void main()
                         // end the event, we are done
                         return;
                     }
+                }
             }
+        }
     });
 }
